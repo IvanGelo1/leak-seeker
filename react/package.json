@@ -5,6 +5,10 @@
   "dependencies": {
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^26.0.23",
+    "@types/node": "^15.0.1",
+    "@types/react": "^17.0.4",
+    "@types/react-dom": "^17.0.3",
     "canvas": "^2.7.0",
     "chart.js": "^3.2.0",
     "moment": "^2.29.1",
@@ -14,6 +18,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "react-simple-image-viewer": "^0.0.8",
+    "typescript": "^4.2.4",
     "web-vitals": "^1.1.1"
   },
   "scripts": {
