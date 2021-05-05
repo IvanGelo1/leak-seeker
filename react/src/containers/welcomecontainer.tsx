@@ -3,7 +3,12 @@ import WelcomeChoiceButton from '../components/welcomechoicebutton';
 
 import logo from '../images/logo.png'
 
-const WelcomeContainer = ({ setIntroPage, setSearchedReg }) => {
+interface Props {
+  setIntroPage: (bool: boolean) => void,
+  setSearchedReg: (text: string) => void
+}
+
+const WelcomeContainer: React.FC<Props> = ({ setIntroPage, setSearchedReg }) => {
   return (
     <div className="welcome-container glass" data-testid="WelcomeContainer">
       <h1>Welcome to Leak Seeker</h1>

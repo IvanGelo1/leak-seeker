@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+
+interface Props {
+  setSearchedReg: (text: string) => void
+}
+
+const SearchBar: React.FC<Props> = ({setSearchedReg}) => {
+
+  const [inputText, setInputText] = useState<string>('');
+
+  const inputHandler = (event: { target: HTMLInputElement }): void => setInputText(event.target.value);
 
 
-const SearchBar = ({setSearchedReg}) => {
-
-  const [inputText, setInputText] = useState('');
-
-  const inputHandler = (event) => setInputText(event.target.value);
-
-
- const onSearchSubmit = async (event) => {
+ const onSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
   event.preventDefault();
 
   if (!inputText) {

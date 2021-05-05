@@ -1,20 +1,43 @@
 import '../css/faultpage.css';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FaultListContainer from './faultlistcontainer';
 import LeftSidebar from '../components/faultpage/leftsidebar';
 import RightDataDisplay from '../components/faultpage/rightdatadisplay';
 import { getFaultsByReg } from '../service/service-api';
-import FaultLogEntry from '../components/faultpage/faultlogentry.jsx';
+import FaultLogEntry from '../components/faultpage/faultlogentry';
+
+interface Props {
+  setSearchedReg: (text: string) => void,
+  searchedReg: string,
+  setIntroPage: (bool: boolean) => void
+}
+
+interface VehicleFaults {
+  reg: string,
+  make: string,
+  model: string,
+  faults: Fault[]
+}
+
+interface Fault {
+  summary: string,
+  description: string,
+  priceToFix: number,
+  rating: number,
+  area: string,
+  year: number,
+  faultLogged: string
+}
 
 
-const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) => {
+const MainFaultPageContainer: React.FC<Props> = ({ searchedReg, setSearchedReg, setIntroPage }) => {
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [allFaultsObject, setAllFaults] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [allFaultsObject, setAllFaults] = useState<VehicleFaults[]>([]);
 
-  const [linkType, setLinkType] = useState('fault-display');
+  const [linkType, setLinkType] = useState<string>('fault-display');
 
-  const data = require('../dummy.json');
+  const data: VehicleFaults = require('../dummy.json');
 
   // GRABS FAULTS FROM DATABASE
   useEffect(() => {
@@ -35,7 +58,7 @@ const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) =
     case 'fault-display':
       return (
         <div className="columns-container glass">
-          <LeftSidebar setLinkType={setLinkType} setIntroPage={setIntroPage}/>
+          <LeftSidebar setLinkType={setLinkType} linkType={linkType} setIntroPage={setIntroPage}/>
           <div className="fault-list-box">
             <FaultListContainer
               isLoading={isLoading}

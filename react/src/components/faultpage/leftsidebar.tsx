@@ -1,6 +1,13 @@
+import React from 'react';
 import '../../css/faultpage.css';
 
-const LeftSidebar = ({ setLinkType, linkType, setIntroPage }) => {
+interface Props {
+  setLinkType: (text: string) => void,
+  linkType: string,
+  setIntroPage: (bool: boolean) => void
+}
+
+const LeftSidebar: React.FC<Props> = ({ setLinkType, linkType, setIntroPage }) => {
   return (
     <div className="left-col col glass" data-testid="LeftSideBar">
       <div className='left-btn-div'>

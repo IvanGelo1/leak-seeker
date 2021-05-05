@@ -1,10 +1,46 @@
 import '../../css/faultpage.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { saveFaultToDatabase } from '../../service/service-api';
 
-const FaultLogEntry = ({ setLinkType, setSearchedReg }) => {
+interface Props {
+  setLinkType: (text: string) => void,
+  setSearchedReg: (text: string) => void
+}
+
+interface FaultObj {
+  reg: string,
+  make: string,
+  model: string,
+  summary: string,
+  description: string,
+  year: string,
+  area: string,
+  priceToFix: string,
+  faultLogged: number | string | Date,
+  rating: number,
+  faults?: Fault[]
+}
+
+interface CompleteObj {
+  reg: string,
+  make: string,
+  model: string,
+  faults?: Fault[]
+}
+
+interface Fault {
+  summary: string,
+  description: string,
+  priceToFix: string,
+  rating: number,
+  area: string,
+  year: string,
+  faultLogged: string | number | Date
+}
+
+const FaultLogEntry: React.FC<Props> = ({ setLinkType, setSearchedReg }) => {
   const [formCompleted, setFormCompleted] = useState(false);
-  const [newFaultObject, setNewFaultObject] = useState({
+  const [newFaultObject, setNewFaultObject] = useState<FaultObj>({
     reg: '',
     make: '',
     model: '',
@@ -17,20 +53,20 @@ const FaultLogEntry = ({ setLinkType, setSearchedReg }) => {
     rating: 0,
   });
 
-  const inputHandler = (event) =>
+  const inputHandler = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>): void =>
     setNewFaultObject({
       ...newFaultObject,
       [event.target.name]: event.target.value,
     });
 
-  const onSearchSubmit = async (event) => {
+  const onSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!newFaultObject.reg || !newFaultObject.make || !newFaultObject.model) {
       alert('Please fill in the form above');
       return;
     } else {
-      const faultsArray = [
+      const faultsArray: Fault[] = [
         {
           summary: newFaultObject.summary,
           description: newFaultObject.description,
@@ -41,10 +77,17 @@ const FaultLogEntry = ({ setLinkType, setSearchedReg }) => {
           faultLogged: newFaultObject.faultLogged,
         },
       ];
-      const completeObject = {
+      const completeObject: FaultObj = {
         reg: newFaultObject.reg,
         make: newFaultObject.make,
         model: newFaultObject.model,
+        summary: '',
+        description: '',
+        year: '',
+        area: '',
+        priceToFix: '',
+        rating: 0,
+        faultLogged: '',
         faults: faultsArray,
       };
       console.log('SEARCH -> NEXT STEP', completeObject);
@@ -172,8 +215,8 @@ const FaultLogEntry = ({ setLinkType, setSearchedReg }) => {
             className='fault-search-input'
               name="description"
               placeholder="Please enter a short description of the fault..."
-              rows="4"
-              cols="50"
+              rows={4}
+              cols={50}
               value={newFaultObject.description}
               onChange={(event) => inputHandler(event)}
             />

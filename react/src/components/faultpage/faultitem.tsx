@@ -1,6 +1,6 @@
 import '../../css/faultpage.css';
 import moment from 'moment';
-import { useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import img1 from '../../images/img1.jpg';
 import img2 from '../../images/img2.jpg';
@@ -19,7 +19,18 @@ import img12 from '../../images/img12.jpg';
 
 import ImageViewer from 'react-simple-image-viewer';
 
-const FaultItem = ({
+interface Props {
+  summary: string,
+  description: string,
+  year: number,
+  area: string,
+  priceToFix: number,
+  faultLogged: string,
+  rating: number,
+  imageIndex: number
+}
+
+const FaultItem: React.FC<Props> = ({
   summary,
   description,
   year,
@@ -29,12 +40,12 @@ const FaultItem = ({
   rating,
   imageIndex,
 }) => {
-  const [currentImage, setCurrentImage] = useState(0);
-  const [isViewerOpen, setIsViewerOpen] = useState(false);
-  const [expand, setExpand] = useState(false);
-  const [faultRating, setFaultRating] = useState(rating);
+  const [currentImage, setCurrentImage] = useState<number>(0);
+  const [isViewerOpen, setIsViewerOpen] = useState<boolean>(false);
+  const [expand, setExpand] = useState<boolean>(false);
+  const [faultRating, setFaultRating] = useState<number>(rating);
 
-  const handleRatingChange = (upOrDown) => {
+  const handleRatingChange = (upOrDown: string) => {
     if (upOrDown === 'up') {
       setFaultRating(faultRating + 1);
     } else {
@@ -48,7 +59,7 @@ const FaultItem = ({
     [img9, img10, img11, img12],
   ];
 
-  const openImageViewer = useCallback((index) => {
+  const openImageViewer = useCallback((index: number) => {
     setCurrentImage(index);
     setIsViewerOpen(true);
   }, []);
@@ -144,7 +155,7 @@ const FaultItem = ({
 
             {isViewerOpen && (
               <ImageViewer
-                src={images}
+                src={images[0]}
                 currentIndex={currentImage}
                 onClose={closeImageViewer}
               />

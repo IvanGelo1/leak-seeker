@@ -5,23 +5,43 @@ import {
   yearAverager,
   areaAverager,
 } from '../../service/service-api';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
-const RightDataDisplay = ({ allFaultsObject }) => {
+interface Props {
+  allFaultsObject: VehicleFaults[]
+}
+
+interface VehicleFaults {
+  reg: string,
+  make: string,
+  model: string,
+  faults: Fault[]
+}
+
+interface Fault {
+  summary: string,
+  description: string,
+  priceToFix: number,
+  rating: number,
+  area: string,
+  year: number,
+  faultLogged: string
+}
+
+const RightDataDisplay: React.FC<Props> = ({ allFaultsObject }) => {
   const faultsByPrice = allFaultsObject[0].faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
   const faultsByArea = allFaultsObject[0].faults.map((el) => el.area);// Return array with area of each
   const faultsByYear = allFaultsObject[0].faults.map((el) => el.year); // Returns array with year of each
 
-  const prices = priceAverager(faultsByPrice);
-  const areas = areaAverager(faultsByArea);
-  const years = yearAverager(faultsByYear);
+  const prices: number[] = priceAverager(faultsByPrice);
+  const areas: number[] = areaAverager(faultsByArea);
+  const years: number[] = yearAverager(faultsByYear);
 
   const priceStats = ['£10-100', '£100-£500', '£500-1000', '£1000 +'];
   const areaStats = ['Interior', 'Bodywork', 'Engine', 'Drivetrain'];
   const yearStats = ["Pre-1990's", '1990-2000', '2000-2010', '2010 >'];
 
-  const [dataType, setDataType] = useState([areaStats, 'Problem area', areas]);
-
+  const [dataType, setDataType] = useState<(string[] | string | number[])[]>([areaStats, 'Problem area', areas]);
 
   const data = {
     labels: dataType[0],

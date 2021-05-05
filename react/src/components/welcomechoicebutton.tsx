@@ -1,21 +1,33 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import '../css/welcomepage.css';
 
-const WelcomeChoiceButton = ({ searchType, setIntroPage, setSearchedReg }) => {
+interface Props {
+  searchType: string,
+  setIntroPage: (bool: boolean) => void,
+  setSearchedReg: (text: string) => void
+}
+
+interface Vehicle {
+  reg: string,
+  make: string,
+  model: string,
+}
+
+const WelcomeChoiceButton: React.FC<Props> = ({ searchType, setIntroPage, setSearchedReg }) => {
   // THESE STATES TRACK WHICH DROP DOWN TO SHOW
-  const [searchClicked, setSearchClicked] = useState(false);
-  const [logClicked, setLogClicked] = useState(false);
-  const [inputText, setInputText] = useState({
+  const [searchClicked, setSearchClicked] = useState<boolean>(false);
+  const [logClicked, setLogClicked] = useState<boolean>(false);
+  const [inputText, setInputText] = useState<Vehicle>({
     reg: '',
     make: '',
     model: '',
   });
 
   // SETS STATE TO APPROPRIATE INPUTTED VALUES
-  const inputHandler = (event) =>
+  const inputHandler = (event: { target: HTMLInputElement }): void =>
     setInputText({ ...inputText, [event.target.name]: event.target.value.toUpperCase() });
 
-  const onSearchSubmit = async (event) => {
+  const onSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!inputText.reg) {
@@ -32,7 +44,7 @@ const WelcomeChoiceButton = ({ searchType, setIntroPage, setSearchedReg }) => {
     }
   };
 
-  const onLogSubmit = async (event) => {
+  const onLogSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!inputText.reg || !inputText.make) {

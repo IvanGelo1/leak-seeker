@@ -1,13 +1,37 @@
+import React from 'react';
 import SearchBar from '../components/faultpage/searchbar';
 import FaultItem from '../components/faultpage/faultitem';
 
+interface Props {
+  isLoading: boolean,
+  setSearchedReg: (text: string) => void,
+  allFaultsObject: VehicleFaults[],
+}
+
+interface VehicleFaults {
+  reg: string,
+  make: string,
+  model: string,
+  faults: Fault[]
+}
+
+interface Fault {
+  summary: string,
+  description: string,
+  priceToFix: number,
+  rating: number,
+  area: string,
+  year: number,
+  faultLogged: string
+}
+
 // MAPS EACH FAULT TO A FAULT ITEM COMPONENT
-const FaultListContainer = ({ isLoading, allFaultsObject, setSearchedReg }) => {
+const FaultListContainer: React.FC<Props> = ({ isLoading, allFaultsObject, setSearchedReg }) => {
 
   const faultsArray = allFaultsObject.map((faultArray) =>
-    faultArray.faults.map((fault, index) => (
+    faultArray.faults.map((fault: Fault, index: number) => (
       <FaultItem
-        key={faultArray._id + index}
+        key={index}
         summary={fault.summary}
         description={fault.description}
         year={fault.year}
