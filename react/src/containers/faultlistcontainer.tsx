@@ -1,16 +1,22 @@
 import SearchBar from '../components/faultpage/searchbar';
 import FaultItem from '../components/faultpage/faultitem';
+import React from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
+
+interface Props {
+  isLoading: boolean
+}
 
 // MAPS EACH FAULT TO A FAULT ITEM COMPONENT
-const FaultListContainer = ({ isLoading}) => {
+const FaultListContainer: React.FC<Props> = ({ isLoading}) => {
 
-  const allFaults = useSelector(state => state.allFaults.value)
+  const allFaults = useSelector((state: RootState) => state.allFaults.value)
 
   const faultsArray = allFaults.map((faultArray) =>
     faultArray.faults.map((fault, index) => (
       <FaultItem
-        key={faultArray._id + index}
+        key={index}
         summary={fault.summary}
         description={fault.description}
         year={fault.year}

@@ -1,11 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 import '../../css/faultpage.css';
 import { change } from '../../redux/introPage';
+import { RootState } from '../../redux/store';
 
+interface Props {
+  setLinkType: (text: string) => void,
+  linkType: string
+}
 
-const LeftSidebar = ({ setLinkType, linkType,}) => {
+const LeftSidebar: React.FC<Props> = ({ setLinkType, linkType,}) => {
   console.log(change);
-  const intro = useSelector(state => state.introPage.value);
+  const intro = useSelector((state: RootState) => state.introPage.value);
   const dispatch = useDispatch()
 
   return (

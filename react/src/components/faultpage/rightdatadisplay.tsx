@@ -5,11 +5,12 @@ import {
   yearAverager,
   areaAverager,
 } from '../../service/service-api';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const RightDataDisplay = () => {
-  const allFaults = useSelector(state => state.allFaults.value)
+  const allFaults = useSelector((state: RootState) => state.allFaults.value)
   const faultsByPrice = allFaults[0].faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
   const faultsByArea = allFaults[0].faults.map((el) => el.area);// Return array with area of each
   const faultsByYear = allFaults[0].faults.map((el) => el.year); // Returns array with year of each
@@ -22,7 +23,7 @@ const RightDataDisplay = () => {
   const areaStats = ['Interior', 'Bodywork', 'Engine', 'Drivetrain'];
   const yearStats = ["Pre-1990's", '1990-2000', '2000-2010', '2010 >'];
 
-  const [dataType, setDataType] = useState([areaStats, 'Problem area', areas]);
+  const [dataType, setDataType] = useState<(string[] | string | number[])[]>([areaStats, 'Problem area', areas]);
 
 
   const data = {

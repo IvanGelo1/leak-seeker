@@ -1,7 +1,8 @@
 import '../css/welcomepage.css';
+import React from 'react';
 import logo from '../images/logo.png'
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
   return (
     <div className='navbar-cont glass' data-testid='navbar'>
       <section className='navbar-left'>

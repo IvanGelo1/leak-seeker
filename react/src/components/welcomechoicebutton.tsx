@@ -1,10 +1,14 @@
-import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { change } from '../redux/introPage';
 import { changeRegistration } from '../redux/registration';
 import '../css/welcomepage.css';
 
-const WelcomeChoiceButton = ({searchType}) => {
+interface Props {
+  searchType: string
+}
+
+const WelcomeChoiceButton: React.FC<Props> = ({searchType}) => {
   // THESE STATES TRACK WHICH DROP DOWN TO SHOW
 
   const dispatch = useDispatch();
@@ -18,10 +22,10 @@ const WelcomeChoiceButton = ({searchType}) => {
   });
 
   // SETS STATE TO APPROPRIATE INPUTTED VALUES
-  const inputHandler = (event) =>
+  const inputHandler = (event: { target: HTMLInputElement }): void =>
     setInputText({ ...inputText, [event.target.name]: event.target.value.toUpperCase() });
 
-  const onSearchSubmit = async (event) => {
+  const onSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!inputText.reg) {
@@ -38,7 +42,7 @@ const WelcomeChoiceButton = ({searchType}) => {
     }
   };
 
-  const onLogSubmit = async (event) => {
+  const onLogSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!inputText.reg || !inputText.make) {
