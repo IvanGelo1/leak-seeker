@@ -1,9 +1,10 @@
 import '../css/welcomepage.css';
+import React from 'react';
 import WelcomeChoiceButton from '../components/welcomechoicebutton';
 
 import logo from '../images/logo.png'
 
-const WelcomeContainer = () => {
+const WelcomeContainer: React.FC = () => {
   return (
     <div className="welcome-container glass" data-testid="WelcomeContainer">
       <h1>Welcome to Leak Seeker</h1>

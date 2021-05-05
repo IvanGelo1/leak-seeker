@@ -1,25 +1,43 @@
 import '../css/faultpage.css';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import FaultListContainer from './faultlistcontainer';
 import LeftSidebar from '../components/faultpage/leftsidebar';
 import RightDataDisplay from '../components/faultpage/rightdatadisplay';
 import { getFaultsByReg } from '../service/service-api';
-import FaultLogEntry from '../components/faultpage/faultlogentry.jsx';
+import FaultLogEntry from '../components/faultpage/faultlogentry';
 import { useDispatch, useSelector } from 'react-redux';
 import {setFaults} from '../redux/allFaults';
+import { RootState } from '../redux/store';
 
-const MainFaultPageContainer = () => {
+interface VehicleFaults {
+  reg: string,
+  make: string,
+  model: string,
+  faults: Fault[]
+}
+
+interface Fault {
+  summary: string,
+  description: string,
+  priceToFix: number,
+  rating: number,
+  area: string,
+  year: number,
+  faultLogged: string
+}
+
+const MainFaultPageContainer: React.FC = () => {
 
   const dispatch = useDispatch()
 
-  const searchedReg = useSelector(state => state.registrationPage.value)
-  const allFaults = useSelector(state => state.allFaults.value)
+  const searchedReg = useSelector((state: RootState) => state.registrationPage.value)
+  const allFaults = useSelector((state: RootState) => state.allFaults.value)
 
   const [isLoading, setIsLoading] = useState(false);
 
   const [linkType, setLinkType] = useState('fault-display'); //Not passed as props
 
-  const data = require('../dummy.json');
+  const data: VehicleFaults = require('../dummy.json');
 
   // GRABS FAULTS FROM DATABASE
   useEffect(() => {
@@ -40,7 +58,7 @@ const MainFaultPageContainer = () => {
     case 'fault-display':
       return (
         <div className="columns-container glass">
-          <LeftSidebar setLinkType={setLinkType}/>
+          <LeftSidebar setLinkType={setLinkType} linkType={linkType}/>
           <div className="fault-list-box">
             <FaultListContainer
               isLoading={isLoading}

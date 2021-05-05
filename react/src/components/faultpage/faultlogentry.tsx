@@ -1,10 +1,14 @@
 import '../../css/faultpage.css';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { saveFaultToDatabase } from '../../service/service-api';
 import {changeRegistration} from '../../redux/registration';
 import { useDispatch } from 'react-redux';
 
-const FaultLogEntry = ({ setLinkType}) => {
+interface Props {
+  setLinkType: (text: string) => void
+}
+
+const FaultLogEntry: React.FC<Props> = ({ setLinkType}) => {
   const dispatch = useDispatch()
 
   const [formCompleted, setFormCompleted] = useState(false);
@@ -21,13 +25,13 @@ const FaultLogEntry = ({ setLinkType}) => {
     rating: 0,
   });
 
-  const inputHandler = (event) =>
+  const inputHandler = (event: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLSelectElement> | React.ChangeEvent<HTMLTextAreaElement>): void =>
     setNewFaultObject({
       ...newFaultObject,
       [event.target.name]: event.target.value,
     });
 
-  const onSearchSubmit = async (event) => {
+  const onSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault();
 
     if (!newFaultObject.reg || !newFaultObject.make || !newFaultObject.model) {
@@ -49,6 +53,13 @@ const FaultLogEntry = ({ setLinkType}) => {
         reg: newFaultObject.reg,
         make: newFaultObject.make,
         model: newFaultObject.model,
+        summary: '',
+        description: '',
+        year: '',
+        area: '',
+        priceToFix: '',
+        rating: 0,
+        faultLogged: '',
         faults: faultsArray,
       };
       console.log('SEARCH -> NEXT STEP', completeObject);
@@ -64,7 +75,7 @@ const FaultLogEntry = ({ setLinkType}) => {
         year: '',
         area: '',
         priceToFix: '',
-        faultLogged: new Date(),
+        faultLogged: Date.now(),
         rating: 0,
       });
     }
@@ -176,8 +187,8 @@ const FaultLogEntry = ({ setLinkType}) => {
             className='fault-search-input'
               name="description"
               placeholder="Please enter a short description of the fault..."
-              rows="4"
-              cols="50"
+              rows={4}
+              cols={50}
               value={newFaultObject.description}
               onChange={(event) => inputHandler(event)}
             />

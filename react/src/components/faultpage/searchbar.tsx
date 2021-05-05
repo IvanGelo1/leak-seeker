@@ -1,15 +1,15 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { changeRegistration } from '../../redux/registration';
 
-const SearchBar = () => {
+const SearchBar: React.FC = () => {
 
   const [inputText, setInputText] = useState('');
   const dispatch = useDispatch()
-  const inputHandler = (event) => setInputText(event.target.value);
+  const inputHandler = (event: { target: HTMLInputElement }): void => setInputText(event.target.value);
 
 
- const onSearchSubmit = async (event) => {
+ const onSearchSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
   event.preventDefault();
 
   if (!inputText) {
