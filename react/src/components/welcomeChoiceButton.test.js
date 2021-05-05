@@ -14,7 +14,6 @@ describe('should render', () => {
     render(<WelcomeChoiceButton/>)
     expect(screen.getByTestId('welcomeChoiceBtnMain')).toBeInTheDocument()
   });
-
   test('searchfaults button should render', () => {
     render(<WelcomeChoiceButton searchType={"Search Faults"}/>)
     expect(screen.getByRole("link",{name: 'Search Faults'})).toBeInTheDocument()

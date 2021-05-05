@@ -3,7 +3,7 @@ import WelcomeChoiceButton from '../components/welcomechoicebutton';
 
 import logo from '../images/logo.png'
 
-const WelcomeContainer = ({ setIntroPage, setSearchedReg }) => {
+const WelcomeContainer = () => {
   return (
     <div className="welcome-container glass" data-testid="WelcomeContainer">
       <h1>Welcome to Leak Seeker</h1>
@@ -11,16 +11,12 @@ const WelcomeContainer = ({ setIntroPage, setSearchedReg }) => {
       <div className="button-container">
         <WelcomeChoiceButton
           searchType="Search Faults"
-          setIntroPage={setIntroPage}
-          setSearchedReg={setSearchedReg}
         />
         <div>
         <img className='welcome-logo' src={logo} alt='brand logo'></img>
         </div>
         <WelcomeChoiceButton
           searchType="Register Fault"
-          setIntroPage={setIntroPage}
-          setSearchedReg={setSearchedReg}
         />
       </div>
     </div>

@@ -1,8 +1,14 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { change } from '../redux/introPage';
+import { changeRegistration } from '../redux/registration';
 import '../css/welcomepage.css';
 
-const WelcomeChoiceButton = ({ searchType, setIntroPage, setSearchedReg }) => {
+const WelcomeChoiceButton = ({searchType}) => {
   // THESE STATES TRACK WHICH DROP DOWN TO SHOW
+
+  const dispatch = useDispatch();
+
   const [searchClicked, setSearchClicked] = useState(false);
   const [logClicked, setLogClicked] = useState(false);
   const [inputText, setInputText] = useState({
@@ -23,8 +29,8 @@ const WelcomeChoiceButton = ({ searchType, setIntroPage, setSearchedReg }) => {
       return;
     } else {
       console.log('SEARCH -> NEXT STEP', inputText.reg);
-      setSearchedReg(inputText.reg);
-      setIntroPage(false);
+      dispatch(changeRegistration(inputText.reg))
+      dispatch(change())
 
       // SEND DATA THROUGH TO BACKEND
       // GET RID OF WELCOME PAGE
@@ -40,7 +46,7 @@ const WelcomeChoiceButton = ({ searchType, setIntroPage, setSearchedReg }) => {
       return;
     } else {
       console.log('LOG -> NEXT STEP');
-      setIntroPage(false);
+      dispatch(change())
       // SEND DATA THROUGH TO FAULT REGISTER PAGE
       // REMOVE WELCOME PAGE
       // RENDER FAULT REGISTER PAGE

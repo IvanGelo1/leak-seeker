@@ -1,10 +1,13 @@
 import SearchBar from '../components/faultpage/searchbar';
 import FaultItem from '../components/faultpage/faultitem';
+import { useSelector } from 'react-redux';
 
 // MAPS EACH FAULT TO A FAULT ITEM COMPONENT
-const FaultListContainer = ({ isLoading, allFaultsObject, setSearchedReg }) => {
+const FaultListContainer = ({ isLoading}) => {
 
-  const faultsArray = allFaultsObject.map((faultArray) =>
+  const allFaults = useSelector(state => state.allFaults.value)
+
+  const faultsArray = allFaults.map((faultArray) =>
     faultArray.faults.map((fault, index) => (
       <FaultItem
         key={faultArray._id + index}
@@ -24,13 +27,13 @@ const FaultListContainer = ({ isLoading, allFaultsObject, setSearchedReg }) => {
   return (
     <div className="middle-col col">
       <div className="search-and-make-model ">
-        <SearchBar setSearchedReg={setSearchedReg}/>
-        {!isLoading && allFaultsObject[0] && (
+        <SearchBar/>
+        {!isLoading && allFaults[0] && (
           <div className="make-model-div ">
             <p>Current search:</p>
             <div className='m-m'>
-            <span>Make: <h3>{allFaultsObject[0].make}</h3></span>
-            <span>Model: <h3>{allFaultsObject[0].model}</h3></span>
+            <span>Make: <h3>{allFaults[0].make}</h3></span>
+            <span>Model: <h3>{allFaults[0].model}</h3></span>
             </div>
           </div>
         )}

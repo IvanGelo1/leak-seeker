@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeRegistration } from '../../redux/registration';
 
-
-const SearchBar = ({setSearchedReg}) => {
+const SearchBar = () => {
 
   const [inputText, setInputText] = useState('');
-
+  const dispatch = useDispatch()
   const inputHandler = (event) => setInputText(event.target.value);
 
 
@@ -15,7 +16,7 @@ const SearchBar = ({setSearchedReg}) => {
     alert('Please enter a valid registration number');
     return;
   } else {
-    setSearchedReg(inputText)
+    dispatch(changeRegistration(inputText))
 
 
   }
