@@ -6,11 +6,13 @@ import {
   areaAverager,
 } from '../../service/service-api';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 
-const RightDataDisplay = ({ allFaultsObject }) => {
-  const faultsByPrice = allFaultsObject[0].faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
-  const faultsByArea = allFaultsObject[0].faults.map((el) => el.area);// Return array with area of each
-  const faultsByYear = allFaultsObject[0].faults.map((el) => el.year); // Returns array with year of each
+const RightDataDisplay = () => {
+  const allFaults = useSelector(state => state.allFaults.value)
+  const faultsByPrice = allFaults[0].faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
+  const faultsByArea = allFaults[0].faults.map((el) => el.area);// Return array with area of each
+  const faultsByYear = allFaults[0].faults.map((el) => el.year); // Returns array with year of each
 
   const prices = priceAverager(faultsByPrice);
   const areas = areaAverager(faultsByArea);
@@ -47,7 +49,7 @@ const RightDataDisplay = ({ allFaultsObject }) => {
 
   return (
     <div className="data-container col glass" data-testid="rightDataDisplayContainer">
-      {allFaultsObject.length > 0 && (
+      {allFaults.length > 0 && (
         <div>
           <h2>{dataType[1]} data</h2>
           <Doughnut  data={data} width={400} height={400} />

@@ -5,20 +5,25 @@ import LeftSidebar from '../components/faultpage/leftsidebar';
 import RightDataDisplay from '../components/faultpage/rightdatadisplay';
 import { getFaultsByReg } from '../service/service-api';
 import FaultLogEntry from '../components/faultpage/faultlogentry.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import {setFaults} from '../redux/allFaults';
 
+const MainFaultPageContainer = () => {
 
-const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) => {
+  const dispatch = useDispatch()
+
+  const searchedReg = useSelector(state => state.registrationPage.value)
+  const allFaults = useSelector(state => state.allFaults.value)
 
   const [isLoading, setIsLoading] = useState(false);
-  const [allFaultsObject, setAllFaults] = useState([]);
 
-  const [linkType, setLinkType] = useState('fault-display');
+  const [linkType, setLinkType] = useState('fault-display'); //Not passed as props
 
   const data = require('../dummy.json');
 
   // GRABS FAULTS FROM DATABASE
   useEffect(() => {
-    setAllFaults([data])
+    dispatch(setFaults(data))
     // getFaultsByReg(searchedReg)
     //   .then((fault) => setAllFaults([fault]))
     //   .then(() => setIsLoading(false));
@@ -28,22 +33,20 @@ const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) =
     case 'log':
       return (
       <div className="columns-container glass">
-        <LeftSidebar setLinkType={setLinkType} linkType={linkType} setIntroPage={setIntroPage}/>
-        <FaultLogEntry setLinkType={setLinkType} setSearchedReg={setSearchedReg}/>
+        <LeftSidebar setLinkType={setLinkType} linkType={linkType}/>
+        <FaultLogEntry setLinkType={setLinkType}/>
       </div>
       )
     case 'fault-display':
       return (
         <div className="columns-container glass">
-          <LeftSidebar setLinkType={setLinkType} setIntroPage={setIntroPage}/>
+          <LeftSidebar setLinkType={setLinkType}/>
           <div className="fault-list-box">
             <FaultListContainer
               isLoading={isLoading}
-              allFaultsObject={allFaultsObject}
-              setSearchedReg={setSearchedReg}
             />
-            {allFaultsObject.length > 0 &&
-            <RightDataDisplay allFaultsObject={allFaultsObject}/>
+            {allFaults.length > 0 &&
+            <RightDataDisplay/>
             }
           </div>
         </div>
@@ -51,7 +54,7 @@ const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) =
     case 'about':
       return (
         <div className="columns-container glass">
-        <LeftSidebar setLinkType={setLinkType} linkType={linkType} setIntroPage={setIntroPage}/>
+        <LeftSidebar setLinkType={setLinkType} linkType={linkType}/>
           <p>ABOUT PAGE</p>
 
         </div>
@@ -59,7 +62,7 @@ const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) =
     case 'contact':
       return (
         <div className="columns-container glass">
-        <LeftSidebar setLinkType={setLinkType} linkType={linkType} setIntroPage={setIntroPage}/>
+        <LeftSidebar setLinkType={setLinkType} linkType={linkType}/>
           <p>CONTACT</p>
 
         </div>
@@ -67,7 +70,7 @@ const MainFaultPageContainer = ({ searchedReg, setSearchedReg, setIntroPage }) =
       case 'report':
       return (
         <div className="columns-container glass">
-        <LeftSidebar setLinkType={setLinkType} linkType={linkType} setIntroPage={setIntroPage}/>
+        <LeftSidebar setLinkType={setLinkType} linkType={linkType}/>
           <p>REPORT</p>
 
         </div>

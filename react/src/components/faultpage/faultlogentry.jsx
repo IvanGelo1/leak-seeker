@@ -1,8 +1,12 @@
 import '../../css/faultpage.css';
 import { useState } from 'react';
 import { saveFaultToDatabase } from '../../service/service-api';
+import {changeRegistration} from '../../redux/registration';
+import { useDispatch } from 'react-redux';
 
-const FaultLogEntry = ({ setLinkType, setSearchedReg }) => {
+const FaultLogEntry = ({ setLinkType}) => {
+  const dispatch = useDispatch()
+
   const [formCompleted, setFormCompleted] = useState(false);
   const [newFaultObject, setNewFaultObject] = useState({
     reg: '',
@@ -50,7 +54,7 @@ const FaultLogEntry = ({ setLinkType, setSearchedReg }) => {
       console.log('SEARCH -> NEXT STEP', completeObject);
       await saveFaultToDatabase(completeObject);
       setFormCompleted(true);
-      setSearchedReg(completeObject.reg);
+      dispatch(changeRegistration(completeObject.reg))
       setNewFaultObject({
         reg: '',
         make: '',

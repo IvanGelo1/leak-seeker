@@ -1,6 +1,13 @@
+import { useDispatch, useSelector } from 'react-redux';
 import '../../css/faultpage.css';
+import { change } from '../../redux/introPage';
 
-const LeftSidebar = ({ setLinkType, linkType, setIntroPage }) => {
+
+const LeftSidebar = ({ setLinkType, linkType,}) => {
+  console.log(change);
+  const intro = useSelector(state => state.introPage.value);
+  const dispatch = useDispatch()
+
   return (
     <div className="left-col col glass" data-testid="LeftSideBar">
       <div className='left-btn-div'>
@@ -8,7 +15,7 @@ const LeftSidebar = ({ setLinkType, linkType, setIntroPage }) => {
           data-cy="sideBarHome"
           className="welcome-choice-btn glass"
           href="#"
-          onClick={() => setIntroPage(true)}
+          onClick={() => dispatch(change())}
         >
           Home
         </a>
