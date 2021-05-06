@@ -11,7 +11,6 @@ import { RootState } from '../../redux/store';
 
 const RightDataDisplay = () => {
   const allFaults = useSelector((state: RootState) => state.allFaults.value)
-  console.log('---------------------------------------------',allFaults)
   const faultsByPrice = allFaults.faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
   const faultsByArea = allFaults.faults.map((el) => el.area);// Return array with area of each
   const faultsByYear = allFaults.faults.map((el) => el.year); // Returns array with year of each
@@ -53,7 +52,7 @@ const RightDataDisplay = () => {
     <div className="data-container col glass" data-testid="rightDataDisplayContainer">
       <div>
         <h2>{dataType[1]} data</h2>
-        <Doughnut  data={data} width={400} height={400} />
+        <Doughnut type={'test'}  data={data} width={400} height={400} />
         <div className="stats">
           <a
             onClick={() => setDataType([areaStats, 'Problem area', areas])}
