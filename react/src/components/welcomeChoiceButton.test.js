@@ -3,8 +3,11 @@ import { fireEvent, getByTestId, render, screen } from '@testing-library/react';
 import WelcomeChoiceButton from './welcomechoicebutton';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
+import { useDispatch } from 'react-redux'
 
-const setReg = jest.fn();
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(() => {})
+}))
 beforeEach(() => {
   jest.clearAllMocks();
 })
@@ -27,7 +30,9 @@ describe('should render', () => {
 
 describe('button', () => {
   test('search faults button is clicked', () => {
-    render(<WelcomeChoiceButton setSearchedReg={setReg}  searchType={"Search Faults"}/>)
+    render(<WelcomeChoiceButton searchType={"Search Faults"}/>)
+    const dispatch = jest.fn();
+    useDispatch.mockReturnValue(dispatch);
     userEvent.click(screen.queryByTestId('searchbtn'))
     const input = screen.getByPlaceholderText('Enter a registration number...');
     userEvent.type(input, 'test')
@@ -36,12 +41,15 @@ describe('button', () => {
     expect(screen.getByTestId('paragraph')).toHaveTextContent('TEST')
     const submitBtn = (screen.getByText('Submit'))
     userEvent.click(submitBtn);
-    expect(setReg).toHaveBeenCalledTimes(1);
-    expect(setReg).toHaveBeenCalledWith('TEST');
+    expect(dispatch).toHaveBeenCalledTimes(2);
+    expect(dispatch).toHaveBeenCalledWith({"payload": "TEST", "type": "registrationPage/changeRegistration"});
+    expect(dispatch).toHaveBeenCalledWith({"payload": undefined, "type": "introPage/change"});
   })
 
   test('register faults button is clicked', () => {
-    render(<WelcomeChoiceButton setIntroPage={setReg} searchType={"Register Fault"}/>)
+    render(<WelcomeChoiceButton searchType={"Register Fault"}/>)
+    const dispatch = jest.fn();
+    useDispatch.mockReturnValue(dispatch);
     userEvent.click(screen.getByTestId('searchbtn'))
     const registrationInput = screen.getByPlaceholderText('Enter your registration number...')
     const brandInput = screen.getByPlaceholderText('Enter your vehicles manufacturer...')
@@ -55,7 +63,7 @@ describe('button', () => {
     expect(screen.getByLabelText('Make/ Brand:')).toBeInTheDocument();
     const registerSubmitBtn = (screen.getByTestId('registerBtn'));
     userEvent.click(registerSubmitBtn)
-    expect(setReg).toHaveBeenCalledTimes(1)
-    expect(setReg).toHaveBeenCalledWith(false);
+    expect(dispatch).toHaveBeenCalledTimes(1)
+    expect(dispatch).toHaveBeenCalledWith({"payload": undefined, "type": "introPage/change"});
   })
 })

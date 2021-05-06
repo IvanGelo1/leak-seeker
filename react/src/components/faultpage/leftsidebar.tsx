@@ -8,9 +8,7 @@ interface Props {
   linkType: string
 }
 
-const LeftSidebar: React.FC<Props> = ({ setLinkType, linkType,}) => {
-  console.log(change);
-  const intro = useSelector((state: RootState) => state.introPage.value);
+const LeftSidebar: React.FC<Props> = ({ setLinkType, linkType }) => {
   const dispatch = useDispatch()
 
   return (

@@ -1,10 +1,16 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event'
-import SearchBar from './searchbar.jsx';
+import SearchBar from './searchbar';
 import '@testing-library/jest-dom/extend-expect';
+import { Provider } from 'react-redux'
+import store from '../../redux/store.ts'
+import { useDispatch } from 'react-redux'
 
-const setSearch = jest.fn()
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(() => {}),
+}));
+
 beforeEach(() => {
   jest.clearAllMocks();
 })
@@ -19,7 +25,9 @@ test('Should render SearchBar', () => {
 
 test('Should change input value and call the function on submit', () => {
 
-  render(<SearchBar setSearchedReg={setSearch} />);
+  const dispatch = jest.fn()
+  useDispatch.mockReturnValue(dispatch)
+  render(<SearchBar />);
 
   const input = screen.getByPlaceholderText("Enter a registration number...");
   userEvent.type(input, '');
@@ -30,6 +38,6 @@ test('Should change input value and call the function on submit', () => {
   const button = screen.getByTestId("Submit-button")
   userEvent.click(button);
 
-  expect(setSearch).toHaveBeenCalledTimes(1);
-  expect(setSearch).toHaveBeenCalledWith('Hello, test');
+  expect(dispatch).toHaveBeenCalledTimes(1);
+  expect(dispatch).toHaveBeenCalledWith({"payload": "Hello, test", "type": "registrationPage/changeRegistration"});
 })

@@ -18,10 +18,17 @@ interface Fault {
 }
 
 interface FaultsState {
-  value: VehicleFaults[]
+  value: VehicleFaults
 }
 
-const initialState: FaultsState = { value: [] }
+const initialVehicleFaults: VehicleFaults = {
+  reg: '',
+  make: '',
+  model: '',
+  faults: []
+}
+
+const initialState: FaultsState = { value: initialVehicleFaults }
 
 export const allFaultsSlice = createSlice(
   {
@@ -29,7 +36,7 @@ export const allFaultsSlice = createSlice(
     initialState,
     reducers: {
       setFaults: (state, action: PayloadAction<VehicleFaults>) => {
-        state.value = [action.payload]
+        state.value = action.payload
       }
     }
   }

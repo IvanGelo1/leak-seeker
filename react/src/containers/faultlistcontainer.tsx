@@ -13,8 +13,7 @@ const FaultListContainer: React.FC<Props> = ({ isLoading}) => {
 
   const allFaults = useSelector((state: RootState) => state.allFaults.value)
 
-  const faultsArray = allFaults.map((faultArray) =>
-    faultArray.faults.map((fault, index) => (
+  const faultsArray = allFaults.faults.map((fault, index) => (
       <FaultItem
         key={index}
         summary={fault.summary}
@@ -26,20 +25,19 @@ const FaultListContainer: React.FC<Props> = ({ isLoading}) => {
         rating={fault.rating}
         imageIndex={index}
       />
-    ))
-  );
+    ));
 
   // RENDERS ALL FAULTS IN FAULT LIST
   return (
     <div className="middle-col col">
       <div className="search-and-make-model ">
         <SearchBar/>
-        {!isLoading && allFaults[0] && (
+        {!isLoading && (
           <div className="make-model-div ">
             <p>Current search:</p>
             <div className='m-m'>
-            <span>Make: <h3>{allFaults[0].make}</h3></span>
-            <span>Model: <h3>{allFaults[0].model}</h3></span>
+            <span>Make: <h3>{allFaults.make}</h3></span>
+            <span>Model: <h3>{allFaults.model}</h3></span>
             </div>
           </div>
         )}

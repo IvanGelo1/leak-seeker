@@ -1,18 +1,43 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import RightDataDisplay from './rightdatadisplay';
 import ResizeObserver from './ResizeObserver';
 
+import { createStore } from 'redux';
+import store from '../../redux/store.ts'
+import { change } from '../../redux/introPage';
+import { Provider } from 'react-redux'
+import { useSelector } from 'react-redux';
 
-const allFaultsObject= [{faults:['test1','test2','test3']}]
-beforeEach(() => {
-  render(<RightDataDisplay  allFaultsObject={allFaultsObject} />)
+jest.mock('../../redux/introPage', () => {
+  return {
+    change: jest.fn()
+  }
 })
+
+const withStore = ({ child }) => {
+  // const store = createStore({reducer: {}, {initialState: state}})
+
+  return <Provider store={store}>{child}</Provider>
+}
+
+// const allFaultsObject= [{faults:['test1','test2','test3']}]
+beforeEach(() => {
+  // render(withStore(<RightDataDisplay />));
+  render(<Provider store={store}><RightDataDisplay /></Provider>)
+  // render(<RightDataDisplay  allFaultsObject={allFaultsObject} />)
+})
+
+// expect(change).toHaveBeenCalledWith
 
 describe('component should render',() => {
   test('mainContainer', () => {
+    // const allFaultsObject= [{faults:['test1','test2','test3']}]
+
+    // render(<Provider store={store}><RightDataDisplay /></Provider>)
+
     expect(screen.getByTestId('rightDataDisplayContainer')).toBeInTheDocument();
   })
 
@@ -48,7 +73,7 @@ describe('data should change', () => {
   })
 
   test('Number of faults by year should show', () => {
-    const numOfFaultsBtn = (screen.getByText('Number of faults by year'))
+    const numOfFaultsBtn = (screen.getByTestId('Numberoffaultsbyyear'))
     userEvent.click(numOfFaultsBtn)
     expect(screen.getByText('Faults Sorted By Year data')).toBeInTheDocument();
   })
