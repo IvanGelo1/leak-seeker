@@ -63,8 +63,9 @@ const MainFaultPageContainer: React.FC = () => {
             <FaultListContainer
               isLoading={isLoading}
             />
-            {allFaults.length > 0 &&
-            <RightDataDisplay/>
+            {allFaults.reg
+              ? <RightDataDisplay/>
+              : null
             }
           </div>
         </div>

@@ -10,7 +10,6 @@ interface Props {
 
 const FaultLogEntry: React.FC<Props> = ({ setLinkType}) => {
   const dispatch = useDispatch()
-
   const [formCompleted, setFormCompleted] = useState(false);
   const [newFaultObject, setNewFaultObject] = useState({
     reg: '',

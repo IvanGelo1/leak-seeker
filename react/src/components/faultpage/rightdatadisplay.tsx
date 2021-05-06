@@ -11,9 +11,10 @@ import { RootState } from '../../redux/store';
 
 const RightDataDisplay = () => {
   const allFaults = useSelector((state: RootState) => state.allFaults.value)
-  const faultsByPrice = allFaults[0].faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
-  const faultsByArea = allFaults[0].faults.map((el) => el.area);// Return array with area of each
-  const faultsByYear = allFaults[0].faults.map((el) => el.year); // Returns array with year of each
+  console.log('---------------------------------------------',allFaults)
+  const faultsByPrice = allFaults.faults.map((el) => el.priceToFix);//Return array with pricestoFix of each
+  const faultsByArea = allFaults.faults.map((el) => el.area);// Return array with area of each
+  const faultsByYear = allFaults.faults.map((el) => el.year); // Returns array with year of each
 
   const prices = priceAverager(faultsByPrice);
   const areas = areaAverager(faultsByArea);
@@ -50,50 +51,49 @@ const RightDataDisplay = () => {
 
   return (
     <div className="data-container col glass" data-testid="rightDataDisplayContainer">
-      {allFaults.length > 0 && (
-        <div>
-          <h2>{dataType[1]} data</h2>
-          <Doughnut  data={data} width={400} height={400} />
-          <div className="stats">
-            <a
-              onClick={() => setDataType([areaStats, 'Problem area', areas])}
-              href="#"
-              className="data-choice-btn"
-            >
-              <div className="icn">
-                <i className="fas fa-car-crash fa-lg"></i>
-              </div>
-              Problem areas
-            </a>
+      <div>
+        <h2>{dataType[1]} data</h2>
+        <Doughnut  data={data} width={400} height={400} />
+        <div className="stats">
+          <a
+            onClick={() => setDataType([areaStats, 'Problem area', areas])}
+            href="#"
+            className="data-choice-btn"
+          >
+            <div className="icn">
+              <i className="fas fa-car-crash fa-lg"></i>
+            </div>
+            Problem areas
+          </a>
 
-            <a
-              onClick={() =>
-                setDataType([priceStats, 'Average Repair Price', prices])
-              }
-              href="#"
-              className="data-choice-btn"
-            >
-              <div className="icn">
-                <i className="fas fa-dollar-sign fa-lg"></i>
-              </div>
-              Average repair price
-            </a>
+          <a
+            onClick={() =>
+              setDataType([priceStats, 'Average Repair Price', prices])
+            }
+            href="#"
+            className="data-choice-btn"
+          >
+            <div className="icn">
+              <i className="fas fa-dollar-sign fa-lg"></i>
+            </div>
+            Average repair price
+          </a>
 
-            <a
-              onClick={() =>
-                setDataType([yearStats, 'Faults Sorted By Year', years])
-              }
-              href="#"
-              className="data-choice-btn"
-            >
-              <div className="icn">
-                <i className="far fa-calendar-alt fa-lg"></i>
-              </div>
-              Number of faults by year
-            </a>
-          </div>
+          <a
+            onClick={() =>
+              setDataType([yearStats, 'Faults Sorted By Year', years])
+            }
+            href="#"
+            className="data-choice-btn"
+            data-testid="Numberoffaultsbyyear"
+          >
+            <div className="icn">
+              <i className="far fa-calendar-alt fa-lg" ></i>
+            </div>
+            Number of faults by year
+          </a>
         </div>
-      )}
+      </div>
     </div>
   );
 };

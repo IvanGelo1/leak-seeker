@@ -2,16 +2,37 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
+import { useDispatch } from "react-redux";
 
-import FaultLogEntry from './faultlogentry.jsx';
 
-const setReg = jest.fn();
+import FaultLogEntry from './faultlogentry';
+import { createStore } from 'redux';
+import { change } from '../../redux/introPage';
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(() => {}),
+}));
+
+// jest.mock('../../redux/introPage', () => {
+//   return {
+//     change: jest.fn()
+//   }
+// })
+
+// const withStore = (child, state) => {
+//   const store = createStore({reducer: {}, {initialState: state}})
+
+//   return <Provider store={store}>{child}</Provider>
+// }
+
 const setLink = jest.fn();
 beforeEach(() => {
-  render(<FaultLogEntry setLinkType={setLink} setSearchedReg={setReg}/>);
+  render(<FaultLogEntry setLinkType={setLink} />)
+  // render(withStore(<FaultLogEntry setLinkType={setLink} />, {name: }));
   jest.clearAllMocks();
-
 })
+
+// expect(change).toHaveBeenCalledWith
 
 test('Should render elements', () => {
   expect(screen.getByTestId('FaultLogEntry')).toBeInTheDocument();
@@ -112,6 +133,9 @@ test('upload file', () => {
 });
 
 test('Submit button has expected behaviour', async () => {
+  const dispatch = jest.fn();
+  useDispatch.mockReturnValue(dispatch);
+
   const inputReg = screen.getByPlaceholderText("Enter your registration number...");
   const inputMake = screen.getByPlaceholderText("Enter the vehicle manufacturer...");
   const inputModel = screen.getByPlaceholderText("Enter the model of your vehicle...");
@@ -124,8 +148,8 @@ test('Submit button has expected behaviour', async () => {
   userEvent.click(submit);
 
   await waitFor(() => {
-    expect(setReg).toHaveBeenCalledTimes(1);
-    expect(setReg).toHaveBeenCalledWith('Registration')
+    expect(dispatch).toHaveBeenCalledTimes(1);
+    expect(dispatch).toHaveBeenCalledWith({"payload": "Registration", "type": "registrationPage/changeRegistration"})
   });
 
   expect(screen.getByText('Thank you for submitting a new fault record.')).toBeInTheDocument();

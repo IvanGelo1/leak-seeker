@@ -1,19 +1,26 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
+import { useDispatch } from "react-redux";
 
-import LeftSidebar from './leftsidebar.jsx';
+import LeftSidebar from './leftsidebar';
+
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(() => {}),
+}));
 
 const setLink = jest.fn();
-const setIntro = jest.fn();
+// const setIntro = jest.fn();
 
 beforeEach(() => {
-  render(<LeftSidebar setLinkType={setLink} setIntroPage={setIntro}/>);
+  // render(<LeftSidebar setLinkType={setLink} />);
   jest.clearAllMocks();
 })
 
 test('Should render elements', () => {
+  render(<LeftSidebar setLinkType={setLink} />);
+
   expect(screen.getByTestId("LeftSideBar")).toBeInTheDocument();
   expect(screen.getByRole("link", {name: 'Home'})).toHaveTextContent('Home');
   expect(screen.getByRole("link", {name: 'Log a fault'})).toHaveTextContent('Log a fault');
@@ -23,14 +30,21 @@ test('Should render elements', () => {
 })
 
 test('Button Home working', () => {
+  const dispatch = jest.fn();
+  useDispatch.mockReturnValue(dispatch);
+  render(<LeftSidebar setLinkType={setLink} />);
+
   const button = screen.getByRole("link", {name: 'Home'});
 
   userEvent.click(button);
-  expect(setIntro).toHaveBeenCalledTimes(1);
-  expect(setIntro).toHaveBeenCalledWith(true);
+
+  expect(dispatch).toHaveBeenCalledTimes(1);
+  expect(dispatch).toHaveBeenCalledWith({"payload": undefined, "type": "introPage/change"});
 })
 
 test('Button Log a fault working', () => {
+  render(<LeftSidebar setLinkType={setLink} />);
+
   const button = screen.getByRole("link", {name: 'Log a fault'});
 
   userEvent.click(button);
@@ -40,6 +54,8 @@ test('Button Log a fault working', () => {
 })
 
 test('Button About working', () => {
+  render(<LeftSidebar setLinkType={setLink} />);
+
   const button = screen.getByRole("link", {name: 'About'});
 
   userEvent.click(button);
@@ -49,6 +65,8 @@ test('Button About working', () => {
 })
 
 test('Button Contact Us working', () => {
+  render(<LeftSidebar setLinkType={setLink} />);
+
   const button = screen.getByRole("link", {name: 'Contact Us'});
 
   userEvent.click(button);
@@ -58,6 +76,8 @@ test('Button Contact Us working', () => {
 })
 
 test('Button Report a problem working', () => {
+  render(<LeftSidebar setLinkType={setLink} />);
+
   const button = screen.getByRole("link", {name: 'Report a problem'});
 
   userEvent.click(button);
