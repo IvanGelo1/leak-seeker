@@ -12,7 +12,6 @@ const getFunction = async function (req, res) {
     // find one doc from collection
     // const vehicleRecord = await mongooseVehicleModel.findOne({ name: 'test' }, (err, docs) => {console.log('findOne = ', docs)})
     res.status(200).send(allDocs);
-    console.log('get request success');
   } catch (error) {
     console.error('Failed to get document from database, error -> ', error);
   }
@@ -21,7 +20,6 @@ const getFunction = async function (req, res) {
 // THIS WILL BE THE MAIN GET REQUEST
 // GET SPECIFIC VEHCILE RECORDS FROM REG REQUEST
 const getFaultsFromReg = async function (req, res) {
-  console.log('REGISTRATION => ', req.params.reg)
   try {
     const regToVehicle = await mongooseRegModel.findOne(
       {reg: req.params.reg },
@@ -29,7 +27,6 @@ const getFaultsFromReg = async function (req, res) {
         // console.log('regToVehicle = ', record);
       // }
     );
-      console.log('regToVehicle =>', regToVehicle)
     const vehicleRecord = await mongooseVehicleModel.findOne(
       {
         make: regToVehicle.make,
@@ -52,7 +49,6 @@ const getFaultsFromReg = async function (req, res) {
 // TO-DO -> ADD RESPONSES WITH INTERPOLATION TO ADVISE WHAT HAS BEEN DONE
 const addFault = async function (req, res) {
   let requestBody = req.body;
-  console.log(requestBody.faults)
   let veh = false;
 
   try {
