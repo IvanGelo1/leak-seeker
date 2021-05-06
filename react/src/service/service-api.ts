@@ -43,8 +43,6 @@ export const getFaultsByReg = (reg: string): Promise<void | VehicleFaults> => ge
 export const saveFaultToDatabase = (faultObj: FaultObj) => postFaultToDatabase("addfault", faultObj);
 
 
-// export const postNewEvent = (event) => createEvent(`events`, event);
-
 // // GET REQUEST
 const fetchRequest = (url: string): Promise<void | VehicleFaults> => {
   return fetch(`${localURL}${url}`)
@@ -68,7 +66,6 @@ const getRegFaultsRequest = (url: string): Promise<void | VehicleFaults> => {
 
 // POST REQUEST -
 const postFaultToDatabase = (url: string, faultObj: FaultObj): Promise<void | Response> => {
-  console.log("inside post, faultob -> ", faultObj);
   return fetch(`${localURL}${url}`, {
     method: "POST",
     body: JSON.stringify(faultObj),
@@ -115,7 +112,6 @@ export const priceAverager = (faults: number[]) => {
 
 export const yearAverager = (faults: number[]) => {
     const arr = Array(4).fill(0);
-    console.log(faults);
     faults.forEach((el) => {
 
       switch (true) {

@@ -23,7 +23,6 @@ export function ShowWelcomePageProvider({ children }) {
   const [welcomeState, setWelcomeState] = useState(true);
 
   function swapPageFunction() {
-    console.log("INSIDE SWAP CON");
     setWelcomeState(false);
   }
 

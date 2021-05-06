@@ -61,7 +61,6 @@ const FaultLogEntry: React.FC<Props> = ({ setLinkType}) => {
         faultLogged: '',
         faults: faultsArray,
       };
-      console.log('SEARCH -> NEXT STEP', completeObject);
       await saveFaultToDatabase(completeObject);
       setFormCompleted(true);
       dispatch(changeRegistration(completeObject.reg))

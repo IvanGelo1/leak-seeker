@@ -32,7 +32,6 @@ const WelcomeChoiceButton: React.FC<Props> = ({searchType}) => {
       alert('Please enter a valid registration number');
       return;
     } else {
-      console.log('SEARCH -> NEXT STEP', inputText.reg);
       dispatch(changeRegistration(inputText.reg))
       dispatch(change())
 
@@ -49,7 +48,6 @@ const WelcomeChoiceButton: React.FC<Props> = ({searchType}) => {
       alert('Please enter your vehicle details');
       return;
     } else {
-      console.log('LOG -> NEXT STEP');
       dispatch(change())
       // SEND DATA THROUGH TO FAULT REGISTER PAGE
       // REMOVE WELCOME PAGE
