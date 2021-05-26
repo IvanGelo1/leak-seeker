@@ -1,0 +1,11 @@
+# Port for server to connect on:
+PORT=3001
+
+# MongoDB database URL:
+URL='mongodb://localhost:27017/leak-seeker'
+
+# MongoDB vehicle collection - this holds the vehicle make, model and an array of faults:
+VEHICLECOLLECTION='vehicle'
+
+# MongoDB licence plate collection - this holds each individual licence plate and the type of vehicle make/ model it applies to:
+REGCOLLECTION='reg'
