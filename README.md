@@ -95,3 +95,7 @@ $ npm install
 ## 📖 About
 
 * [LeakSeeker on LinkedIn](https://www.linkedin.com/company/leakseeker)
+
+## Author
+  [Chris Norish](https://github.com/TheNoshman)
+
